@@ -1,0 +1,95 @@
+/* Custom animation classes that extend Tailwind */
+.letter-green {
+  animation: alternateGreen 2s ease-in-out infinite;
+}
+
+.letter-red {
+  animation: alternateRed 2s ease-in-out infinite;
+}
+
+@keyframes alternateGreen {
+  0%, 100% {
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                 0 0 40px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    color: #ff0000;
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.8),
+                 0 0 40px rgba(255, 0, 0, 0.5);
+  }
+}
+
+@keyframes alternateRed {
+  0%, 100% {
+    color: #ff0000;
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.8),
+                 0 0 40px rgba(255, 0, 0, 0.5);
+  }
+  50% {
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                 0 0 40px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes fall {
+  0% {
+    top: -10%;
+    transform: translateX(0) rotate(0deg);
+  }
+  100% {
+    top: 110%;
+    transform: translateX(100px) rotate(360deg);
+  }
+}
+
+.snowflake {
+  position: absolute;
+  top: -10%;
+  color: white;
+  font-size: 2rem;
+  opacity: 0.8;
+  animation: fall linear infinite;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.snowflake:nth-child(1) {
+  left: 10%;
+  animation-duration: 10s;
+  animation-delay: 0s;
+}
+
+.snowflake:nth-child(2) {
+  left: 30%;
+  animation-duration: 12s;
+  animation-delay: 2s;
+  font-size: 1.5rem;
+}
+
+.snowflake:nth-child(3) {
+  left: 50%;
+  animation-duration: 8s;
+  animation-delay: 4s;
+  font-size: 2.5rem;
+}
+
+.snowflake:nth-child(4) {
+  left: 70%;
+  animation-duration: 11s;
+  animation-delay: 1s;
+}
+
+.snowflake:nth-child(5) {
+  left: 85%;
+  animation-duration: 9s;
+  animation-delay: 3s;
+  font-size: 1.8rem;
+}
+
+.snowflake:nth-child(6) {
+  left: 20%;
+  animation-duration: 13s;
+  animation-delay: 5s;
+  font-size: 2.2rem;
+}
