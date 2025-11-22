@@ -1,9 +1,9 @@
 import React from 'react'
-import GameBoard from './components/GameBoard'
+import Classic from './pages/Classic'
 import './App.css'
 
 const App = () => {
-  return <GameBoard />
+  return <Classic />
 }
 
 export default App

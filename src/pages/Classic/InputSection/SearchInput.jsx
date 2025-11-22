@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { api } from '../services/api'
+import { api } from '../../../services/api'
 
-const SearchInput = ({ onSubmit, disabled }) => {
-  const [query, setQuery] = useState('')
+const SearchInput = ({ onSubmit, disabled, query, onQueryChange }) => {
   const [results, setResults] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [isOpen, setIsOpen] = useState(false)
@@ -34,6 +33,11 @@ const SearchInput = ({ onSubmit, disabled }) => {
   }, [query])
 
   const handleKeyDown = (e) => {
+    if (!isOpen && e.key === 'Enter' && query.trim()) {
+      handleSelect(query.trim())
+      return
+    }
+
     if (!isOpen) return
 
     if (e.key === 'ArrowDown') {
@@ -53,7 +57,6 @@ const SearchInput = ({ onSubmit, disabled }) => {
   }
 
   const handleSelect = (runName) => {
-    setQuery('')
     setResults([])
     setIsOpen(false)
     setSelectedIndex(-1)
@@ -61,35 +64,60 @@ const SearchInput = ({ onSubmit, disabled }) => {
   }
 
   return (
-    <div className="relative w-full max-w-md">
+    <div style={{ position: 'relative', width: '100%' }}>
       <input
         ref={inputRef}
+        className="retro-input"
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => onQueryChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        disabled={disabled}
         placeholder="Type a run name..."
-        className="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+        disabled={disabled}
+        style={{
+          width: '100%',
+          opacity: disabled ? 0.5 : 1,
+          cursor: disabled ? 'not-allowed' : 'text'
+        }}
       />
 
       {isOpen && results.length > 0 && (
         <div
           ref={dropdownRef}
-          className="absolute z-10 w-full mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+          style={{
+            position: 'absolute',
+            zIndex: 1000,
+            width: '100%',
+            marginTop: '8px',
+            background: 'rgba(51, 65, 85, 0.95)',
+            backdropFilter: 'blur(10px)',
+            border: '3px solid #475569',
+            borderRadius: '16px',
+            maxHeight: '300px',
+            overflowY: 'auto',
+            boxShadow: '0 8px 20px rgba(0,0,0,0.4)'
+          }}
         >
           {results.map((run, index) => (
             <div
               key={run.name}
               onClick={() => handleSelect(run.name)}
-              className={`px-4 py-2 cursor-pointer transition-colors ${
-                index === selectedIndex
-                  ? 'bg-blue-500 text-white'
-                  : 'hover:bg-gray-100'
-              }`}
+              style={{
+                padding: '12px 20px',
+                cursor: 'pointer',
+                background: index === selectedIndex ? 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)' : 'transparent',
+                color: index === selectedIndex ? '#fff' : '#e2e8f0',
+                transition: 'all 0.2s',
+                borderBottom: index < results.length - 1 ? '1px solid rgba(71, 85, 105, 0.5)' : 'none'
+              }}
+              onMouseEnter={() => setSelectedIndex(index)}
             >
-              <div className="font-semibold">{run.name}</div>
-              <div className={`text-sm ${index === selectedIndex ? 'text-blue-100' : 'text-gray-600'}`}>
+              <div style={{ fontWeight: '700', fontSize: '16px', marginBottom: '4px' }}>{run.name}</div>
+              <div style={{
+                fontSize: '13px',
+                opacity: 0.8,
+                color: index === selectedIndex ? '#e0e7ff' : '#94a3b8'
+              }}>
                 {run.lift} • {run.zone} • {run.difficulty}
               </div>
             </div>
