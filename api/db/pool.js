@@ -14,7 +14,7 @@ const pool = new Pool({
 
 // Test connection on startup
 pool.on('connect', () => {
-  console.log('✓ Database connected')
+  //console.log('✓ Database connected')
 })
 
 pool.on('error', (err) => {

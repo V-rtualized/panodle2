@@ -160,7 +160,7 @@ function compareArrays(arr1, arr2) {
 
 function compareNumbers(num1, num2) {
   if (num1 === num2) return 'correct'
-  return num1 < num2 ? 'lower' : 'higher'
+  return num1 < num2 ? 'higher' : 'lower'
 }
 
 module.exports = router

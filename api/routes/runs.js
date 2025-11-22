@@ -71,14 +71,14 @@ router.get('/search', async (req, res) => {
     }
 
     const result = await pool.query(
-      'SELECT name FROM runs WHERE name ILIKE $1 ORDER BY name ASC LIMIT 10',
+      'SELECT name, lift, zone, difficulty FROM runs WHERE name ILIKE $1 ORDER BY name ASC LIMIT 10',
       [`%${q}%`]
     )
 
     res.json({
       success: true,
       count: result.rows.length,
-      data: result.rows.map(r => r.name)
+      data: result.rows
     })
   } catch (error) {
     console.error('Error searching runs:', error)
