@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install all dependencies (including devDependencies needed for build)
-RUN npm install
+# Install all dependencies with CI optimizations
+RUN npm install --prefer-offline --no-audit --progress=false
 
 # Copy config files
 COPY tailwind.config.js ./
@@ -28,8 +28,8 @@ WORKDIR /app
 # Copy package files for production dependencies
 COPY package*.json ./
 
-# Install only production dependencies
-RUN npm install --only=production
+# Install only production dependencies with optimizations
+RUN npm install --omit=dev --prefer-offline --no-audit --progress=false
 
 # Copy built app from builder stage
 COPY --from=builder /app/build ./build
