@@ -10,7 +10,6 @@ COPY package*.json ./
 RUN npm install --prefer-offline --no-audit --progress=false
 
 # Copy config files
-COPY tailwind.config.js ./
 COPY postcss.config.js ./
 
 # Copy source code
