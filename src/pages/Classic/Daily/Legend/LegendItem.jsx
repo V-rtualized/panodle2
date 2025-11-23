@@ -1,5 +1,5 @@
 import React from 'react'
-import { COLORS } from '../../../constants/theme'
+import { COLORS } from '../../../../constants/theme'
 
 const LegendItem = ({ label, status, icon }) => {
   const color = COLORS[status]

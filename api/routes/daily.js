@@ -23,16 +23,17 @@ function getPSTDate() {
 
 /**
  * GET /api/daily
- * Get today's daily puzzle run
+ * Get today's daily game run (or specific date if provided)
  *
  * Resets at midnight PST/PDT (America/Vancouver timezone)
- * Returns a deterministic run based on the current PST date
+ * Returns a deterministic run based on the PST date
+ * Query param: ?date=YYYY-MM-DD (optional)
  */
 router.get('/', async (req, res) => {
   try {
-    const today = getPSTDate()
+    const targetDate = req.query.date || getPSTDate()
 
-    const seed = today.split('-').join('')
+    const seed = targetDate.split('-').join('')
 
     const result = await pool.query(
       `
@@ -46,13 +47,13 @@ router.get('/', async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        error: 'No runs available for daily puzzle'
+        error: 'No runs available for daily game'
       })
     }
 
     res.json({
       success: true,
-      date: today,
+      date: targetDate,
       timezone: 'America/Vancouver (PST/PDT)',
       data: {
         lift: result.rows[0].lift,
@@ -72,18 +73,19 @@ router.get('/', async (req, res) => {
     console.error('Error fetching daily run:', error)
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch daily puzzle'
+      error: 'Failed to fetch daily game'
     })
   }
 })
 
 /**
  * POST /api/daily/check
- * Check if a guess is correct for today's puzzle
+ * Check if a guess is correct for today's game (or specific date)
+ * Body: { guess: string, date?: string }
  */
 router.post('/check', express.json(), async (req, res) => {
   try {
-    const { guess } = req.body
+    const { guess, date } = req.body
 
     if (!guess) {
       return res.status(400).json({
@@ -92,8 +94,8 @@ router.post('/check', express.json(), async (req, res) => {
       })
     }
 
-    const today = getPSTDate()
-    const seed = today.split('-').join('')
+    const targetDate = date || getPSTDate()
+    const seed = targetDate.split('-').join('')
 
     const dailyResult = await pool.query(
       `
@@ -107,7 +109,7 @@ router.post('/check', express.json(), async (req, res) => {
     if (dailyResult.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        error: 'Daily puzzle not found'
+        error: 'Daily game not found'
       })
     }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { api } from '../../../services/api'
+import { api } from '../../../../services/api'
 
 const SearchInput = ({ onSubmit, disabled, query, onQueryChange }) => {
   const [results, setResults] = useState([])

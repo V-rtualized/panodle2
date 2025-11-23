@@ -1,5 +1,5 @@
 import React from 'react'
-import { STAT_LABELS } from '../../constants/labels'
+import { STAT_LABELS } from '../../../constants/labels'
 
 const StatLabels = () => (
   <div

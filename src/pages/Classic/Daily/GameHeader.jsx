@@ -1,8 +1,9 @@
 import React from 'react'
 import { MountainSnow } from 'lucide-react'
-import { COLORS } from '../../constants/theme'
+import { COLORS } from '../../../constants/theme'
+import { formatDate, getTodayPST } from '../../../utils/dateUtils'
 
-const GameHeader = ({ lastGuess }) => {
+const GameHeader = ({ lastGuess, date }) => {
   const getLetterColor = (statKey) => {
     if (!lastGuess || !lastGuess.comparison) return '#e0e7ff'
 
@@ -77,11 +78,12 @@ const GameHeader = ({ lastGuess }) => {
           style={{
             fontSize: '18px',
             color: '#cbd5e1',
-            fontWeight: '700',
-            letterSpacing: '3px',
-            textTransform: 'uppercase'
+            fontWeight: '600',
+            letterSpacing: '1px'
           }}>
-          Panorama Ski Run Guessing Game
+          {date && date !== getTodayPST()
+            ? formatDate(date)
+            : 'Panorama Ski Run Guessing Game'}
         </p>
       </div>
     </div>

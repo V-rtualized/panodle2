@@ -1,5 +1,5 @@
 import React from 'react'
-import { getScaledFontSize } from '../../../utils/fontScaling'
+import { getScaledFontSize } from '../../../../utils/fontScaling'
 
 const StatCell = ({ value, status, baseSize = 18 }) => {
   const getStatusClass = () => {

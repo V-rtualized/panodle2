@@ -1,5 +1,5 @@
 import React from 'react'
-import { LEGEND_ITEMS } from '../../../constants/theme'
+import { LEGEND_ITEMS } from '../../../../constants/theme'
 import LegendItem from './LegendItem'
 
 const Legend = () => (

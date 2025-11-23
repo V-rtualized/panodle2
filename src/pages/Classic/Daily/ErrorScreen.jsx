@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LoadingScreen = () => (
+const ErrorScreen = ({ message }) => (
   <div
     style={{
       minHeight: '100vh',
@@ -8,12 +8,11 @@ const LoadingScreen = () => (
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      padding: '0 0 120px 0',
       fontFamily: '"Inter", sans-serif'
     }}>
-    <div style={{ fontSize: '24px', color: '#cbd5e1' }}>
-      Loading today's game...
-    </div>
+    <div style={{ fontSize: '24px', color: '#ef4444' }}>Error: {message}</div>
   </div>
 )
 
-export default LoadingScreen
+export default ErrorScreen
