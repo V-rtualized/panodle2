@@ -3,11 +3,11 @@ import { Check } from 'lucide-react'
 import StatCell from './StatCell'
 import NumericStat from './NumericStat'
 
-const GuessRow = ({ guess, comparison, isCorrect }) => {
+const GuessRow = ({ guess, comparison, isCorrect, isNewest }) => {
   return (
     <div className="retro-card" style={{
       padding: '24px',
-      animation: 'bobble 0.6s ease-out'
+      animation: isNewest ? 'bobble 0.6s ease-out' : 'none'
     }}>
       <div style={{
         fontFamily: '"Outfit", sans-serif',

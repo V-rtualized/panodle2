@@ -8,6 +8,7 @@ export const useGameState = (maxGuesses) => {
 
   const addGuess = (guessData) => {
     const newGuess = {
+      id: Date.now(),
       guess: guessData.guess,
       comparison: guessData.comparison,
       correct: guessData.correct

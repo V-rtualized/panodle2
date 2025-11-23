@@ -65,7 +65,7 @@ const Classic = () => {
       margin: '0',
       fontFamily: '"Inter", sans-serif'
     }}>
-      <GameHeader />
+      <GameHeader lastGuess={gameState.guesses.length > 0 ? gameState.guesses[0] : null} />
 
       <div style={{ maxWidth: '1000px', margin: '-40px auto 60px', padding: '0 20px', position: 'relative', zIndex: 2 }}>
         <InputSection

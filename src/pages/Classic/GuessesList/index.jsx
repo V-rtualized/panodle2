@@ -17,10 +17,11 @@ const GuessesList = ({ guesses }) => {
       ) : (
         guesses.map((g, index) => (
           <GuessRow
-            key={index}
+            key={g.id}
             guess={g.guess}
             comparison={g.comparison}
             isCorrect={g.correct}
+            isNewest={index === 0}
           />
         ))
       )}
