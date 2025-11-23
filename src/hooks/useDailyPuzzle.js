@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { api } from '../services/api'
 
 export const useDailyPuzzle = () => {
@@ -6,11 +6,7 @@ export const useDailyPuzzle = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    loadPuzzle()
-  }, [])
-
-  const loadPuzzle = async () => {
+  const loadPuzzle = useCallback(async () => {
     try {
       setLoading(true)
       const response = await api.getDaily()
@@ -24,7 +20,11 @@ export const useDailyPuzzle = () => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    loadPuzzle().then()
+  }, [loadPuzzle])
 
   return { puzzle, loading, error }
 }

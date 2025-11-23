@@ -1,8 +1,8 @@
 import React from 'react'
 
-const GuessCounter = ({ current, max }) => {
-  return (
-    <div style={{
+const GuessCounter = ({ current, max }) => (
+  <div
+    style={{
       background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
       border: 'none',
       borderRadius: '50px',
@@ -17,9 +17,8 @@ const GuessCounter = ({ current, max }) => {
       minWidth: '80px',
       textAlign: 'center'
     }}>
-      {current}/{max}
-    </div>
-  )
-}
+    {current}/{max}
+  </div>
+)
 
 export default GuessCounter

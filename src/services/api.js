@@ -1,13 +1,13 @@
 const API_BASE = '/api'
 
 export const api = {
-  async getDaily() {
+  getDaily: async () => {
     const response = await fetch(`${API_BASE}/daily`)
     if (!response.ok) throw new Error('Failed to fetch daily puzzle')
     return response.json()
   },
 
-  async checkGuess(guess) {
+  checkGuess: async (guess) => {
     const response = await fetch(`${API_BASE}/daily/check`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -17,14 +17,16 @@ export const api = {
     return response.json()
   },
 
-  async searchRuns(query) {
+  searchRuns: async (query) => {
     if (!query || query.length < 1) return { success: true, data: [] }
-    const response = await fetch(`${API_BASE}/runs/search?q=${encodeURIComponent(query)}`)
+    const response = await fetch(
+      `${API_BASE}/runs/search?q=${encodeURIComponent(query)}`
+    )
     if (!response.ok) throw new Error('Failed to search runs')
     return response.json()
   },
 
-  async getAllRuns() {
+  getAllRuns: async () => {
     const response = await fetch(`${API_BASE}/runs`)
     if (!response.ok) throw new Error('Failed to fetch runs')
     return response.json()

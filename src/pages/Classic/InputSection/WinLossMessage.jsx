@@ -1,8 +1,8 @@
 import React from 'react'
 
-const WinLossMessage = ({ won }) => {
-  return (
-    <div style={{
+const WinLossMessage = ({ won }) => (
+  <div
+    style={{
       padding: '24px',
       background: won
         ? 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)'
@@ -15,9 +15,8 @@ const WinLossMessage = ({ won }) => {
       fontWeight: '800',
       textShadow: '2px 2px 0 rgba(0,0,0,0.2)'
     }}>
-      {won ? 'You Found It!' : 'Better Luck Tomorrow!'}
-    </div>
-  )
-}
+    {won ? 'You Found It!' : 'Better Luck Tomorrow!'}
+  </div>
+)
 
 export default WinLossMessage

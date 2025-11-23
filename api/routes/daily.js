@@ -8,9 +8,11 @@ const pool = require('../db/pool')
  */
 function getPSTDate() {
   const now = new Date()
-  const pstDate = new Date(now.toLocaleString('en-US', {
-    timeZone: 'America/Vancouver'
-  }))
+  const pstDate = new Date(
+    now.toLocaleString('en-US', {
+      timeZone: 'America/Vancouver'
+    })
+  )
 
   const year = pstDate.getFullYear()
   const month = String(pstDate.getMonth() + 1).padStart(2, '0')
@@ -32,11 +34,14 @@ router.get('/', async (req, res) => {
 
     const seed = today.split('-').join('')
 
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       SELECT * FROM runs
       ORDER BY md5(name || $1)
       LIMIT 1
-    `, [seed])
+    `,
+      [seed]
+    )
 
     if (result.rows.length === 0) {
       return res.status(404).json({
@@ -56,9 +61,12 @@ router.get('/', async (req, res) => {
         features: result.rows[0].features,
         length: result.rows[0].length,
         starting_elevation: result.rows[0].starting_elevation,
-        ending_elevation: result.rows[0].ending_elevation,
+        ending_elevation: result.rows[0].ending_elevation
       },
-      hash: require('crypto').createHash('md5').update(result.rows[0].name).digest('hex')
+      hash: require('crypto')
+        .createHash('md5')
+        .update(result.rows[0].name)
+        .digest('hex')
     })
   } catch (error) {
     console.error('Error fetching daily run:', error)
@@ -87,11 +95,14 @@ router.post('/check', express.json(), async (req, res) => {
     const today = getPSTDate()
     const seed = today.split('-').join('')
 
-    const dailyResult = await pool.query(`
+    const dailyResult = await pool.query(
+      `
       SELECT * FROM runs
       ORDER BY md5(name || $1)
       LIMIT 1
-    `, [seed])
+    `,
+      [seed]
+    )
 
     if (dailyResult.rows.length === 0) {
       return res.status(404).json({
@@ -102,10 +113,9 @@ router.post('/check', express.json(), async (req, res) => {
 
     const dailyRun = dailyResult.rows[0]
 
-    const guessResult = await pool.query(
-      'SELECT * FROM runs WHERE name = $1',
-      [guess]
-    )
+    const guessResult = await pool.query('SELECT * FROM runs WHERE name = $1', [
+      guess
+    ])
 
     if (guessResult.rows.length === 0) {
       return res.status(404).json({
@@ -122,11 +132,18 @@ router.post('/check', express.json(), async (req, res) => {
       correct: isCorrect,
       lift: guessedRun.lift === dailyRun.lift ? 'correct' : 'incorrect',
       zone: guessedRun.zone === dailyRun.zone ? 'correct' : 'incorrect',
-      difficulty: guessedRun.difficulty === dailyRun.difficulty ? 'correct' : 'incorrect',
+      difficulty:
+        guessedRun.difficulty === dailyRun.difficulty ? 'correct' : 'incorrect',
       features: compareArrays(guessedRun.features, dailyRun.features),
       length: compareNumbers(guessedRun.length, dailyRun.length),
-      starting_elevation: compareNumbers(guessedRun.starting_elevation, dailyRun.starting_elevation),
-      ending_elevation: compareNumbers(guessedRun.ending_elevation, dailyRun.ending_elevation),
+      starting_elevation: compareNumbers(
+        guessedRun.starting_elevation,
+        dailyRun.starting_elevation
+      ),
+      ending_elevation: compareNumbers(
+        guessedRun.ending_elevation,
+        dailyRun.ending_elevation
+      )
     }
 
     res.json({
@@ -148,7 +165,7 @@ router.post('/check', express.json(), async (req, res) => {
 function compareArrays(arr1, arr2) {
   const set1 = new Set(arr1 || [])
   const set2 = new Set(arr2 || [])
-  const intersection = [...set1].filter(x => set2.has(x))
+  const intersection = [...set1].filter((x) => set2.has(x))
 
   if (arr1.length === arr2.length && intersection.length === arr1.length) {
     return 'correct'

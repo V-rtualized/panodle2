@@ -8,9 +8,7 @@ const pool = require('../db/pool')
  */
 router.get('/', async (req, res) => {
   try {
-    const result = await pool.query(
-      'SELECT * FROM runs ORDER BY name ASC'
-    )
+    const result = await pool.query('SELECT * FROM runs ORDER BY name ASC')
     res.json({
       success: true,
       count: result.rows.length,
@@ -97,10 +95,9 @@ router.get('/:name', async (req, res) => {
   try {
     const { name } = req.params
 
-    const result = await pool.query(
-      'SELECT * FROM runs WHERE name = $1',
-      [name]
-    )
+    const result = await pool.query('SELECT * FROM runs WHERE name = $1', [
+      name
+    ])
 
     if (result.rows.length === 0) {
       return res.status(404).json({

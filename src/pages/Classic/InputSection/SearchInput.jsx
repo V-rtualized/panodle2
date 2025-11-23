@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { api } from '../../../services/api'
 
 const SearchInput = ({ onSubmit, disabled, query, onQueryChange }) => {
@@ -7,6 +7,16 @@ const SearchInput = ({ onSubmit, disabled, query, onQueryChange }) => {
   const [isOpen, setIsOpen] = useState(false)
   const inputRef = useRef(null)
   const dropdownRef = useRef(null)
+
+  const handleSelect = useCallback(
+    (runName) => {
+      setResults([])
+      setIsOpen(false)
+      setSelectedIndex(-1)
+      onSubmit(runName)
+    },
+    [onSubmit]
+  )
 
   useEffect(() => {
     const searchRuns = async () => {
@@ -32,36 +42,34 @@ const SearchInput = ({ onSubmit, disabled, query, onQueryChange }) => {
     return () => clearTimeout(debounce)
   }, [query])
 
-  const handleKeyDown = (e) => {
-    if (!isOpen && e.key === 'Enter' && query.trim()) {
-      handleSelect(query.trim())
-      return
-    }
-
-    if (!isOpen) return
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      setSelectedIndex(prev => (prev < results.length - 1 ? prev + 1 : prev))
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setSelectedIndex(prev => (prev > 0 ? prev - 1 : -1))
-    } else if (e.key === 'Enter') {
-      e.preventDefault()
-      if (selectedIndex >= 0 && results[selectedIndex]) {
-        handleSelect(results[selectedIndex].name)
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (!isOpen && e.key === 'Enter' && query.trim()) {
+        handleSelect(query.trim())
+        return
       }
-    } else if (e.key === 'Escape') {
-      setIsOpen(false)
-    }
-  }
 
-  const handleSelect = (runName) => {
-    setResults([])
-    setIsOpen(false)
-    setSelectedIndex(-1)
-    onSubmit(runName)
-  }
+      if (!isOpen) return
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        setSelectedIndex((prev) =>
+          prev < results.length - 1 ? prev + 1 : prev
+        )
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1))
+      } else if (e.key === 'Enter') {
+        e.preventDefault()
+        if (selectedIndex >= 0 && results[selectedIndex]) {
+          handleSelect(results[selectedIndex].name)
+        }
+      } else if (e.key === 'Escape') {
+        setIsOpen(false)
+      }
+    },
+    [isOpen, query, results, selectedIndex, handleSelect]
+  )
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
@@ -96,8 +104,7 @@ const SearchInput = ({ onSubmit, disabled, query, onQueryChange }) => {
             maxHeight: '300px',
             overflowY: 'auto',
             boxShadow: '0 8px 20px rgba(0,0,0,0.4)'
-          }}
-        >
+          }}>
           {results.map((run, index) => (
             <div
               key={run.name}
@@ -105,19 +112,32 @@ const SearchInput = ({ onSubmit, disabled, query, onQueryChange }) => {
               style={{
                 padding: '12px 20px',
                 cursor: 'pointer',
-                background: index === selectedIndex ? 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)' : 'transparent',
+                background:
+                  index === selectedIndex
+                    ? 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)'
+                    : 'transparent',
                 color: index === selectedIndex ? '#fff' : '#e2e8f0',
                 transition: 'all 0.2s',
-                borderBottom: index < results.length - 1 ? '1px solid rgba(71, 85, 105, 0.5)' : 'none'
+                borderBottom:
+                  index < results.length - 1
+                    ? '1px solid rgba(71, 85, 105, 0.5)'
+                    : 'none'
               }}
-              onMouseEnter={() => setSelectedIndex(index)}
-            >
-              <div style={{ fontWeight: '700', fontSize: '16px', marginBottom: '4px' }}>{run.name}</div>
-              <div style={{
-                fontSize: '13px',
-                opacity: 0.8,
-                color: index === selectedIndex ? '#e0e7ff' : '#94a3b8'
-              }}>
+              onMouseEnter={() => setSelectedIndex(index)}>
+              <div
+                style={{
+                  fontWeight: '700',
+                  fontSize: '16px',
+                  marginBottom: '4px'
+                }}>
+                {run.name}
+              </div>
+              <div
+                style={{
+                  fontSize: '13px',
+                  opacity: 0.8,
+                  color: index === selectedIndex ? '#e0e7ff' : '#94a3b8'
+                }}>
                 {run.lift} • {run.zone} • {run.difficulty}
               </div>
             </div>
