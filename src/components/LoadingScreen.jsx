@@ -1,17 +1,22 @@
 import React from 'react'
+import { gradients, colors, typography } from '../constants/theme'
 
 const LoadingScreen = () => (
   <div
     style={{
       minHeight: '100vh',
-      background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
+      background: gradients.background,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       padding: '0 0 120px 0',
-      fontFamily: '"Inter", sans-serif'
+      fontFamily: typography.fontFamily.sans
     }}>
-    <div style={{ fontSize: '24px', color: '#cbd5e1' }}>
+    <div
+      style={{
+        fontSize: typography.fontSize['2xl'],
+        color: colors.textSecondary
+      }}>
       Loading today's game...
     </div>
   </div>

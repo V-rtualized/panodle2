@@ -2,18 +2,32 @@ import React, { useCallback } from 'react'
 import { api } from '../../../services/api'
 import { useDailyPuzzle } from '../../../hooks/useDailyPuzzle'
 import { useGameState } from '../../../hooks/useGameState'
+import { useStats } from '../../../hooks/useStats'
 import { MAX_GUESSES } from '../../../constants/gameConfig'
 import GameHeader from './GameHeader'
 import InputSection from './InputSection'
 import StatLabels from './StatLabels'
 import GuessesList from './GuessesList'
 import Legend from './Legend'
-import LoadingScreen from './LoadingScreen'
-import ErrorScreen from './ErrorScreen'
+import LoadingScreen from '../../../components/LoadingScreen'
+import ErrorScreen from '../../../components/ErrorScreen'
 
 const Daily = ({ date }) => {
   const { loading, error } = useDailyPuzzle(date)
-  const gameState = useGameState(MAX_GUESSES)
+  const { recordWin, recordLoss } = useStats()
+
+  const handleGameComplete = useCallback(
+    (won, guessCount) => {
+      if (won) {
+        recordWin(guessCount, date)
+      } else {
+        recordLoss(date)
+      }
+    },
+    [recordWin, recordLoss, date]
+  )
+
+  const gameState = useGameState(MAX_GUESSES, date, handleGameComplete)
 
   const handleGuess = useCallback(
     async (runName) => {
