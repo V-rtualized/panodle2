@@ -37,7 +37,8 @@ export default [
         window: 'readonly',
         document: 'readonly',
         navigator: 'readonly',
-        fetch: 'readonly'
+        fetch: 'readonly',
+        localStorage: 'readonly'
       }
     },
     rules: {
