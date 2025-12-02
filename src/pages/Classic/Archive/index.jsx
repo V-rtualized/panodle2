@@ -4,12 +4,12 @@ import PageHeader from '../../../components/PageHeader'
 import InfoBox from '../../../components/InfoBox'
 import ArchiveDateGrid from './ArchiveDateGrid'
 import ArchiveEmptyState from './ArchiveEmptyState'
-import { getArchiveDates, getTodayPST } from '../../../utils/dateUtils'
+import { getArchiveDates, getTodayMST } from '../../../utils/dateUtils'
 import { containers, spacing, colors } from '../../../constants/theme'
 
 const Archive = () => {
   const allDates = getArchiveDates()
-  const today = getTodayPST()
+  const today = getTodayMST()
   const archiveDates = allDates.filter((date) => date !== today)
   const showPlaceholder = archiveDates.length === 0
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { api } from '../../../../services/api'
+import { DifficultyIcon } from '../../../../utils/difficultyUtils'
 
 const SearchInput = ({ onSubmit, disabled, query, onQueryChange }) => {
   const [results, setResults] = useState([])
@@ -136,9 +137,16 @@ const SearchInput = ({ onSubmit, disabled, query, onQueryChange }) => {
                 style={{
                   fontSize: '13px',
                   opacity: 0.8,
-                  color: index === selectedIndex ? '#e0e7ff' : '#94a3b8'
+                  color: index === selectedIndex ? '#e0e7ff' : '#94a3b8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
                 }}>
-                {run.lift} • {run.zone} • {run.difficulty}
+                <span>{run.lift}</span>
+                <span>•</span>
+                <span>{run.zone}</span>
+                <span>•</span>
+                <DifficultyIcon difficulty={run.difficulty} size={14} />
               </div>
             </div>
           ))}

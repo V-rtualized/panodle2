@@ -1,9 +1,12 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { api } from '../../../services/api'
 import { useDailyPuzzle } from '../../../hooks/useDailyPuzzle'
 import { useGameState } from '../../../hooks/useGameState'
 import { useStats } from '../../../hooks/useStats'
+import { getTodayMST } from '../../../utils/dateUtils'
 import { MAX_GUESSES } from '../../../constants/gameConfig'
+import GameCompleteModal from '../../../components/modals/GameCompleteModal'
+import { generateShareText } from '../../../utils/shareUtils'
 import GameHeader from './GameHeader'
 import InputSection from './InputSection'
 import StatLabels from './StatLabels'
@@ -15,6 +18,7 @@ import ErrorScreen from '../../../components/ErrorScreen'
 const Daily = ({ date }) => {
   const { loading, error } = useDailyPuzzle(date)
   const { recordWin, recordLoss } = useStats()
+  const [showModal, setShowModal] = useState(false)
 
   const handleGameComplete = useCallback(
     (won, guessCount) => {
@@ -23,11 +27,37 @@ const Daily = ({ date }) => {
       } else {
         recordLoss(date)
       }
+      // Show modal after a short delay (only for today's game)
+      if (date === getTodayMST()) {
+        setTimeout(() => setShowModal(true), 500)
+      }
     },
     [recordWin, recordLoss, date]
   )
 
   const gameState = useGameState(MAX_GUESSES, date, handleGameComplete)
+
+  // Reset modal when date changes
+  useEffect(() => {
+    setShowModal(false)
+  }, [date])
+
+  // Show modal if game was already completed (when loading from localStorage)
+  // Only show for today's game
+  useEffect(() => {
+    if (gameState.gameOver && !loading && date === getTodayMST()) {
+      setTimeout(() => setShowModal(true), 500)
+    }
+  }, [gameState.gameOver, loading, date])
+
+  // Generate share text
+  const shareText = generateShareText(
+    gameState.won,
+    gameState.guesses.length,
+    MAX_GUESSES,
+    gameState.guesses,
+    date
+  )
 
   const handleGuess = useCallback(
     async (runName) => {
@@ -80,6 +110,15 @@ const Daily = ({ date }) => {
 
         <Legend />
       </div>
+
+      {/* Game Complete Modal */}
+      <GameCompleteModal
+        isOpen={showModal && gameState.gameOver}
+        won={gameState.won}
+        guessCount={gameState.guesses.length}
+        shareText={shareText}
+        onClose={() => setShowModal(false)}
+      />
     </>
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { MountainSnow } from 'lucide-react'
 import { COLORS } from '../../../constants/theme'
-import { formatDate, getTodayPST } from '../../../utils/dateUtils'
+import { formatDate, getTodayMST } from '../../../utils/dateUtils'
 
 const GameHeader = ({ lastGuess, date }) => {
   const getLetterColor = (statKey) => {
@@ -81,7 +81,7 @@ const GameHeader = ({ lastGuess, date }) => {
             fontWeight: '600',
             letterSpacing: '1px'
           }}>
-          {date && date !== getTodayPST()
+          {date && date !== getTodayMST()
             ? formatDate(date)
             : 'Panorama Ski Run Guessing Game'}
         </p>

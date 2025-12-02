@@ -1,22 +1,22 @@
 import { OLDEST_ARCHIVE_DATE } from '../constants/gameConfig'
 
-export const getTodayPST = () => {
+export const getTodayMST = () => {
   const now = new Date()
-  const pstDate = new Date(
+  const mstDate = new Date(
     now.toLocaleString('en-US', {
-      timeZone: 'America/Vancouver'
+      timeZone: 'America/Denver'
     })
   )
 
-  const year = pstDate.getFullYear()
-  const month = String(pstDate.getMonth() + 1).padStart(2, '0')
-  const day = String(pstDate.getDate()).padStart(2, '0')
+  const year = mstDate.getFullYear()
+  const month = String(mstDate.getMonth() + 1).padStart(2, '0')
+  const day = String(mstDate.getDate()).padStart(2, '0')
 
   return `${year}-${month}-${day}`
 }
 
 export const getArchiveDates = () => {
-  const todayStr = getTodayPST()
+  const todayStr = getTodayMST()
   const dates = []
 
   const current = new Date(todayStr + 'T00:00:00')

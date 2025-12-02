@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { loadStats, saveStats } from '../services/storage'
-import { getTodayPST } from '../utils/dateUtils'
+import { getTodayMST } from '../utils/dateUtils'
 
 export const useStats = () => {
   const [stats, setStats] = useState(() => loadStats())
@@ -12,7 +12,7 @@ export const useStats = () => {
 
   const recordWin = useCallback((guessCount, date) => {
     setStats((prev) => {
-      const today = getTodayPST()
+      const today = getTodayMST()
       const isToday = date === today
 
       // Archive games don't count towards stats
@@ -53,7 +53,7 @@ export const useStats = () => {
 
   const recordLoss = useCallback((date) => {
     setStats((prev) => {
-      const today = getTodayPST()
+      const today = getTodayMST()
       const isToday = date === today
 
       // Archive games don't count towards stats

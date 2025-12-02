@@ -3,20 +3,20 @@ const router = express.Router()
 const pool = require('../db/pool')
 
 /**
- * Get current date in PST/PDT timezone
- * Resets at midnight Pacific Time (America/Vancouver)
+ * Get current date in MST/MDT timezone
+ * Resets at midnight Mountain Time (America/Denver)
  */
-function getPSTDate() {
+function getMSTDate() {
   const now = new Date()
-  const pstDate = new Date(
+  const mstDate = new Date(
     now.toLocaleString('en-US', {
-      timeZone: 'America/Vancouver'
+      timeZone: 'America/Denver'
     })
   )
 
-  const year = pstDate.getFullYear()
-  const month = String(pstDate.getMonth() + 1).padStart(2, '0')
-  const day = String(pstDate.getDate()).padStart(2, '0')
+  const year = mstDate.getFullYear()
+  const month = String(mstDate.getMonth() + 1).padStart(2, '0')
+  const day = String(mstDate.getDate()).padStart(2, '0')
 
   return `${year}-${month}-${day}`
 }
@@ -25,13 +25,13 @@ function getPSTDate() {
  * GET /api/daily
  * Get today's daily game run (or specific date if provided)
  *
- * Resets at midnight PST/PDT (America/Vancouver timezone)
- * Returns a deterministic run based on the PST date
+ * Resets at midnight MST/MDT (America/Denver timezone)
+ * Returns a deterministic run based on the MST date
  * Query param: ?date=YYYY-MM-DD (optional)
  */
 router.get('/', async (req, res) => {
   try {
-    const targetDate = req.query.date || getPSTDate()
+    const targetDate = req.query.date || getMSTDate()
 
     const seed = targetDate.split('-').join('')
 
@@ -54,7 +54,7 @@ router.get('/', async (req, res) => {
     res.json({
       success: true,
       date: targetDate,
-      timezone: 'America/Vancouver (PST/PDT)',
+      timezone: 'America/Denver (MST/MDT)',
       data: {
         lift: result.rows[0].lift,
         zone: result.rows[0].zone,
@@ -94,7 +94,7 @@ router.post('/check', express.json(), async (req, res) => {
       })
     }
 
-    const targetDate = date || getPSTDate()
+    const targetDate = date || getMSTDate()
     const seed = targetDate.split('-').join('')
 
     const dailyResult = await pool.query(

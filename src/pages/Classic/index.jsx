@@ -2,9 +2,9 @@ import React from 'react'
 import { Routes, Route, Navigate, useParams } from 'react-router-dom'
 import Daily from './Daily'
 import Archive from './Archive'
-import { getTodayPST } from '../../utils/dateUtils'
+import { getTodayMST } from '../../utils/dateUtils'
 
-const DailyWrapper = () => <Daily date={getTodayPST()} />
+const DailyWrapper = () => <Daily date={getTodayMST()} />
 
 const ArchiveWrapper = () => {
   const { date } = useParams()

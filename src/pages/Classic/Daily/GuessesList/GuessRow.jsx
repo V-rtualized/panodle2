@@ -2,6 +2,7 @@ import React from 'react'
 import { Check } from 'lucide-react'
 import StatCell from './StatCell'
 import NumericStat from './NumericStat'
+import DifficultyStatCell from './DifficultyStatCell'
 
 const GuessRow = ({ guess, comparison, isCorrect, isNewest }) => (
   <div
@@ -33,10 +34,9 @@ const GuessRow = ({ guess, comparison, isCorrect, isNewest }) => (
       }}>
       <StatCell value={guess.lift} status={comparison.lift} baseSize={20} />
       <StatCell value={guess.zone} status={comparison.zone} baseSize={18} />
-      <StatCell
-        value={guess.difficulty}
+      <DifficultyStatCell
+        difficulty={guess.difficulty}
         status={comparison.difficulty}
-        baseSize={18}
       />
       <StatCell
         value={guess.features?.join(', ') || 'None'}
