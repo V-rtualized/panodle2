@@ -32,27 +32,46 @@ const GuessRow = ({ guess, comparison, isCorrect, isNewest }) => (
         gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
         gap: '12px'
       }}>
-      <StatCell value={guess.lift} status={comparison.lift} baseSize={20} />
-      <StatCell value={guess.zone} status={comparison.zone} baseSize={18} />
+      <StatCell
+        value={guess.lift}
+        status={comparison.lift}
+        baseSize={20}
+        label="Lift"
+      />
+      <StatCell
+        value={guess.zone}
+        status={comparison.zone}
+        baseSize={18}
+        label="Zone"
+      />
       <DifficultyStatCell
         difficulty={guess.difficulty}
         status={comparison.difficulty}
+        label="Difficulty"
       />
       <StatCell
         value={guess.features?.join(', ') || 'None'}
         status={comparison.features}
         baseSize={16}
+        label="Features"
       />
-      <NumericStat value={guess.length} unit="m" status={comparison.length} />
+      <NumericStat
+        value={guess.length}
+        unit="m"
+        status={comparison.length}
+        label="Length"
+      />
       <NumericStat
         value={guess.starting_elevation}
         unit="m"
         status={comparison.starting_elevation}
+        label="Start"
       />
       <NumericStat
         value={guess.ending_elevation}
         unit="m"
         status={comparison.ending_elevation}
+        label="End"
       />
     </div>
   </div>

@@ -23,7 +23,7 @@ const OpenMapButton = ({ onMapOpen }) => {
         fontFamily: '"Outfit", sans-serif',
         fontSize: '16px',
         color: '#fff',
-        boxShadow: '0 6px 0 #059669, 0 8px 20px rgba(0,0,0,0.3)',
+        boxShadow: '0 6px 0 #2563eb, 0 8px 20px rgba(0,0,0,0.3)',
         textTransform: 'uppercase',
         letterSpacing: '1px',
         fontWeight: '700',
@@ -36,12 +36,12 @@ const OpenMapButton = ({ onMapOpen }) => {
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'translateY(-2px)'
         e.currentTarget.style.boxShadow =
-          '0 8px 0 #059669, 0 10px 25px rgba(0,0,0,0.4)'
+          '0 8px 0 #2563eb, 0 10px 25px rgba(0,0,0,0.4)'
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = 'translateY(0)'
         e.currentTarget.style.boxShadow =
-          '0 6px 0 #059669, 0 8px 20px rgba(0,0,0,0.3)'
+          '0 6px 0 #2563eb, 0 8px 20px rgba(0,0,0,0.3)'
       }}>
       <ExternalLink size={18} />
       Open Map

@@ -1,7 +1,7 @@
 import React from 'react'
 import { TrendingUp, TrendingDown, Check } from 'lucide-react'
 
-const NumericStat = ({ value, unit, status }) => {
+const NumericStat = ({ value, unit, status, label }) => {
   const getStatusClass = () => {
     if (status === 'correct') return 'correct'
     if (status === 'incorrect') return 'incorrect'
@@ -27,6 +27,30 @@ const NumericStat = ({ value, unit, status }) => {
           gap: '4px',
           color: '#fff'
         }}>
+        {label && (
+          <>
+            <div
+              className="stat-cell-label"
+              style={{
+                fontSize: '11px',
+                fontWeight: '600',
+                color: 'rgba(255, 255, 255, 0.6)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}>
+              {label}
+            </div>
+            <style>
+              {`
+                @media (min-width: 768px) {
+                  .stat-cell-label {
+                    display: none !important;
+                  }
+                }
+              `}
+            </style>
+          </>
+        )}
         <span>
           {value}
           {unit}
