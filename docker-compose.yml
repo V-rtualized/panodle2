@@ -26,8 +26,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    ports:
-      - "3000:3000"
     environment:
       - NODE_ENV=production
       - REACT_APP_DB_HOST=db
