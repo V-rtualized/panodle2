@@ -5,7 +5,7 @@ import { useGameState } from '../../../hooks/useGameState'
 import { useStats } from '../../../hooks/useStats'
 import { getTodayMST } from '../../../utils/dateUtils'
 import { MAX_GUESSES } from '../../../constants/gameConfig'
-import GameCompleteModal from '../../../components/modals/GameCompleteModal'
+import GameCompleteModal from '../../../components/GameCompleteModal'
 import { generateShareText } from '../../../utils/shareUtils'
 import GameHeader from './GameHeader'
 import InputSection from './InputSection'
@@ -19,6 +19,7 @@ const Daily = ({ date }) => {
   const { loading, error } = useDailyPuzzle(date)
   const { recordWin, recordLoss } = useStats()
   const [showModal, setShowModal] = useState(false)
+  const [usedMap, setUsedMap] = useState(false)
 
   const handleGameComplete = useCallback(
     (won, guessCount) => {
@@ -27,7 +28,6 @@ const Daily = ({ date }) => {
       } else {
         recordLoss(date)
       }
-      // Show modal after a short delay (only for today's game)
       if (date === getTodayMST()) {
         setTimeout(() => setShowModal(true), 500)
       }
@@ -37,13 +37,11 @@ const Daily = ({ date }) => {
 
   const gameState = useGameState(MAX_GUESSES, date, handleGameComplete)
 
-  // Reset modal when date changes
   useEffect(() => {
     setShowModal(false)
+    setUsedMap(false)
   }, [date])
 
-  // Show modal if game was already completed (when loading from localStorage)
-  // Only show for today's game
   useEffect(() => {
     if (gameState.gameOver && !loading && date === getTodayMST()) {
       setTimeout(() => setShowModal(true), 500)
@@ -56,8 +54,13 @@ const Daily = ({ date }) => {
     gameState.guesses.length,
     MAX_GUESSES,
     gameState.guesses,
-    date
+    date,
+    usedMap
   )
+
+  const handleMapOpen = useCallback(() => {
+    setUsedMap(true)
+  }, [])
 
   const handleGuess = useCallback(
     async (runName) => {
@@ -102,6 +105,7 @@ const Daily = ({ date }) => {
           onGuess={handleGuess}
           currentQuery={gameState.currentQuery}
           onQueryChange={gameState.setCurrentQuery}
+          onMapOpen={handleMapOpen}
         />
 
         <StatLabels />

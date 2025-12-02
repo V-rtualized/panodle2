@@ -1,6 +1,7 @@
 import React from 'react'
 import SearchInput from './SearchInput'
 import GuessCounter from './GuessCounter'
+import OpenMapButton from './OpenMapButton'
 import WinLossMessage from './WinLossMessage'
 
 const InputSection = ({
@@ -10,7 +11,8 @@ const InputSection = ({
   maxGuesses,
   onGuess,
   currentQuery,
-  onQueryChange
+  onQueryChange,
+  onMapOpen
 }) => (
   <div
     className="retro-card"
@@ -39,6 +41,7 @@ const InputSection = ({
           />
         </div>
         <GuessCounter current={guesses.length} max={maxGuesses} />
+        <OpenMapButton onMapOpen={onMapOpen} />
       </div>
     )}
   </div>

@@ -47,10 +47,12 @@ export const generateShareText = (
   guessCount,
   maxGuesses,
   guesses,
-  date
+  date,
+  usedMap = false
 ) => {
   const dateFormatted = formatDate(date)
   const result = won ? guessCount : 'X'
+  const mapSuffix = usedMap ? ' (with map)' : ''
 
   // Build emoji grid - each row is a guess, each column is a stat
   const emojiGrid = guesses
@@ -60,7 +62,7 @@ export const generateShareText = (
     .join('\n')
 
   return `Panodle ${dateFormatted}
-${result}/${maxGuesses}
+${result}/${maxGuesses}${mapSuffix}
 
 ${emojiGrid}
 
