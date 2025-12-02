@@ -3,25 +3,32 @@
   "version": "2.0.0",
   "private": true,
   "dependencies": {
-    "express": "^4.18.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "express": "^5.1.0",
+    "lucide-react": "^0.554.0",
+    "pg": "^8.16.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.6",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "serve": "node server.js"
+    "serve": "node server.js",
+    "lint": "eslint src/ api/ server.js",
+    "lint:fix": "eslint src/ api/ server.js --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx}\" \"api/**/*.{js,jsx}\" \"server.js\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx}\" \"api/**/*.{js,jsx}\" \"server.js\""
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
-    "tailwindcss": "^3.4.14"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
+    "@tailwindcss/postcss": "^4.1.17",
+    "autoprefixer": "^10.4.22",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "postcss": "^8.5.6",
+    "prettier": "^3.6.2"
   },
   "browserslist": {
     "production": [

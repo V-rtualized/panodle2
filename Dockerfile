@@ -10,7 +10,6 @@ COPY package*.json ./
 RUN npm install --prefer-offline --no-audit --progress=false
 
 # Copy config files
-COPY tailwind.config.js ./
 COPY postcss.config.js ./
 
 # Copy source code
@@ -34,8 +33,9 @@ RUN npm install --omit=dev --prefer-offline --no-audit --progress=false
 # Copy built app from builder stage
 COPY --from=builder /app/build ./build
 
-# Copy server file
+# Copy server files
 COPY server.js ./
+COPY api ./api
 
 # Expose port
 EXPOSE 3000
