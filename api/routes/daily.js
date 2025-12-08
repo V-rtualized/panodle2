@@ -22,6 +22,25 @@ function getMSTDate() {
 }
 
 /**
+ * Generate a seed for a given date
+ * Seeds changed on 2025-12-08 to use a new generation method
+ * @param {string} dateString - Date in YYYY-MM-DD format
+ * @returns {string} Seed value for database query
+ */
+function generateSeed(dateString) {
+  const CUTOFF_DATE = '2025-12-07'
+
+  // For dates up to and including Dec 7, 2025, use the original seed format
+  if (dateString <= CUTOFF_DATE) {
+    return dateString.split('-').join('')  // e.g., "20251207"
+  }
+
+  // For dates from Dec 8, 2025 onwards, use new seed format
+  // Prefix with 'v2-' to ensure different MD5 hash
+  return `v2-${dateString.split('-').join('')}`  // e.g., "v2-20251208"
+}
+
+/**
  * GET /api/daily
  * Get today's daily game run (or specific date if provided)
  *
@@ -33,7 +52,7 @@ router.get('/', async (req, res) => {
   try {
     const targetDate = req.query.date || getMSTDate()
 
-    const seed = targetDate.split('-').join('')
+    const seed = generateSeed(targetDate)
 
     const result = await pool.query(
       `
@@ -95,7 +114,7 @@ router.post('/check', express.json(), async (req, res) => {
     }
 
     const targetDate = date || getMSTDate()
-    const seed = targetDate.split('-').join('')
+    const seed = generateSeed(targetDate)
 
     const dailyResult = await pool.query(
       `
